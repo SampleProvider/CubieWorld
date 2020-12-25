@@ -8,9 +8,29 @@ ctx.textAlign = "center";
 ctx.textBaseline = "center";
 ctx.font = "30px pixel";
 
+var gameMessages = document.getElementById("gameMessages");
+var gameMessageStyle = 'style="color:#000000"';
 var println = function(message){
-    console.log(message);
+    var scroll = false;
+    if(gameMessages.scrollTop + gameMessages.clientHeight >= gameMessages.scrollHeight - 5){
+        scroll = true;
+    }
+    var d = new Date();
+    var m = '' + d.getMinutes();
+    if(m.length === 1){
+        m = '' + 0 + m;
+    }
+    if(m === '0'){
+        m = '00';
+    }
+    gameMessages.innerHTML += '<div class="UI-text-light gameMessage" ' + gameMessageStyle + '>' + "[" + d.getHours() + ":" + m + "] " + message + '</div>'
+    if(scroll){
+        gameMessages.scrollTop = gameMessages.scrollHeight;
+    }
     return true;
+}
+var printStyle = function(style){
+    gameMessageStyle = style;
 }
 var max = Math.max;
 var min = Math.min;
@@ -76,11 +96,11 @@ var text = function(text,x,y){
 
 //Speedrun version: |
 //                  v
-var version =     '4';
+var version =     '1.0.0';
 //Level Creator:     |
 //                   v
 var levelCreator = true;
-var level = 15;
+var level = 1;
 var levelDebug = false;
 var levelTeleport = false;
 var hitboxColor = [0,0,0];
@@ -159,7 +179,7 @@ var mousePower = 'none';
 var drawText = false;
 var textToDraw = '';
 
-var startTime = -1;
+var time = -1;
 
 var isClicking = false;
 var paused = false;
@@ -685,7 +705,9 @@ var Block = function(param){
                     rect(0,0,600,600);
                     if(cubie.level === spawnPositions.length){
                         cubie.level = 1;
-                        println('You won with time ' + (millis() - startTime) + '.\nYou had ' + cubie.deaths + ' deaths.\nThis speedrun is in version ' + version + '.\nYou used your mouse power ' + powerUsed + ' times.');
+                        println('You won with time ' + round(time * 100 / 6) + '.\nYou had ' + cubie.deaths + ' deaths.\nThis speedrun is in version ' + version + '.\nYou used your mouse power ' + powerUsed + ' times.');
+                        time = -1;
+                        powerUsed = 0;
                     }
                     cubie.spawnX = spawnPositions[cubie.level][0];
                     cubie.spawnY = spawnPositions[cubie.level][1];
@@ -1144,2768 +1166,2782 @@ var resetLevel = function(){
 
 //Levels
 {
-//Level 1
-{
-level = 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Move with the ARROW\n keys.',
-});
-new Block({
-    x:420,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Get to the portal to win.',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 2
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Go do some parkour.',
-});
-new Block({
-    x:150,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:420,
-    width:30,
-    height:150,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 3
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:180,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'There can be sticky\nmoving blocks.',
-});
-new Block({
-    x:510,
-    y:450,
-    spdX:1,
-    width:90,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:570,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 4
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:240,
-    width:270,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:240,
-    spdY:1,
-    width:60,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:210,
-    width:60,
-    height:30,
-    blockType:'blocker',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:330,
-    y:240,
-    width:270,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:210,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Take the elevator down!',
-});
-new Block({
-    x:0,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 5
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:570,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:90,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Sometimes, winning can\nget tricky.',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:0,
-    y:480,
-    width:480,
-    height:5,
-    blockType:'sticky',
-    doCollision:true,
-    level:5,
-});
-new Block({
-    x:480,
-    y:480,
-    width:5,
-    height:55,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:535,
-    width:5,
-    height:35,
-    blockType:'none',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 6
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:300,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:570,
-    width:240,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Lava is dangerous. Don\'t\ntouch it!',
-});
-new Block({
-    x:300,
-    y:570,
-    width:60,
-    height:30,
-    blockType:'lava',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 7
-{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Wait, lava can move???',
-});
-new Block({
-    x:150,
-    y:530,
-    width:30,
-    height:40,
-    blockType:'lava',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:300,
-    y:480,
-    width:60,
-    height:90,
-    spdY:-10,
-    blockType:'lava',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:370,
-    y:0,
-    width:60,
-    height:90,
-    spdY:10,
-    blockType:'lava',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-}
-//Level 8{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'These blocks are super\nbouncy. I wonder what\nto do with them...',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:300,
-    width:570,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:0,
-    width:30,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:270,
-    width:30,
-    height:30,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:30,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 9{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:150,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:570,
-    width:150,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:540,
-    width:60,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:480,
-    width:30,
-    height:60,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:570,
-    width:60,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'This ice is super\nslippery! Make sure not\nto fall off!',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 10{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:570,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:480,
-    width:540,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:465,
-    width:25,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:420,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:135,
-    y:460,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:420,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:285,
-    y:460,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:370,
-    y:420,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:135,
-    y:370,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:330,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:285,
-    y:370,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:370,
-    y:330,
-    width:30,
-    height:20,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:330,
-    width:15,
-    height:135,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:390,
-    width:540,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:300,
-    width:540,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:375,
-    width:60,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:60,
-    width:30,
-    height:240,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:60,
-    spdX:2,
-    width:90,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:60,
-    width:30,
-    height:90,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:200,
-    y:0,
-    width:30,
-    height:220,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:230,
-    y:190,
-    width:190,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:120,
-    width:210,
-    height:30,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:285,
-    width:510,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:60,
-    width:15,
-    height:225,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:185,
-    y:0,
-    width:15,
-    height:220,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:30,
-    width:60,
-    height:30,
-    blockType:'ice',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Wait, bouncy blocks,\nlava, and ice???',
-});
-new Block({
-    x:0,
-    y:0,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 11{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:150,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:570,
-    width:150,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:570,
-    width:150,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Mud makes you VERY slow\nwhen you walk on it.',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 12{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:360,
-    width:60,
-    height:210,
-    blockType:'water',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'If only there was a way to\nget up there...  Water\nmight help you with that.',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:420,
-    y:360,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:360,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:360,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:150,
-    width:60,
-    height:210,
-    blockType:'water',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:60,
-    y:150,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:150,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:150,
-    width:120,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 13{
-level += 1;
-new Block({
-    x:0,
-    y:120,
-    width:90,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:90,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:120,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:120,
-    width:30,
-    height:300,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:150,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:150,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:210,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:210,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:270,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:270,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:330,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:330,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:390,
-    width:60,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:510,
-    y:420,
-    width:90,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:90,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'Whoa! No floor! But the\nsand path ahead\ndoesn\'t look stable...',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 14{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:180,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:570,
-    width:60,
-    height:30,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:570,
-    width:210,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:570,
-    width:60,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:570,
-    width:90,
-    height:30,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:480,
-    width:180,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'Uh oh! Monsters! Try\nto lure them into\nthat lava over there.',
-    doCollision:false,
-    level:level,
-});
-new Monster({
-    x:60,
-    y:450,
-    width:30,
-    height:30,
-    moveSpeed:0.2,
-    jumpSpeed:0.7,
-    level:level,
-});
-new Monster({
-    x:120,
-    y:450,
-    width:30,
-    height:30,
-    moveSpeed:0.2,
-    jumpSpeed:0.7,
-    level:level,
-});
-//}
-//Level 15{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'This is the end of the\ntutorial.',
-});
-new Block({
-    x:420,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'Go in the portal to\ncontinue to the\nuser-submitted levels.',
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 16{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:210,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:570,
-    width:240,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:510,
-    spdX:4,
-    width:30,
-    height:15,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:450,
-    width:210,
-    height:15,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:420,
-    width:570,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:30,
-    y:360,
-    width:570,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:270,
-    width:570,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:30,
-    y:210,
-    width:570,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:120,
-    width:570,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:30,
-    y:60,
-    width:570,
-    height:15,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'The TIANMU unspeedrun!\n\nby the-real-tianmu',
-});
-new Block({
-    x:180,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sign',
-    doCollision:false,
-    level:level,
-    message:'This map is the best for a\nspeedrun. Please only use\nthis map for speedruns.',
-});
-new Block({
-    x:0,
-    y:0,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 17{
-level += 1;
-new Block({
-    x:0,
-    y:570,
-    width:600,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:540,
-    width:90,
-    height:60,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:330,
-    width:90,
-    height:60,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:330,
-    width:90,
-    height:60,
-    blockType:'bounce',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:210,
-    width:270,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:240,
-    width:210,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:210,
-    width:150,
-    height:90,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:30,
-    width:30,
-    height:180,
-    blockType:'sign',
-    message:'Cool tree!',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:180,
-    y:90,
-    width:150,
-    height:60,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:30,
-    width:90,
-    height:120,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:30,
-    width:150,
-    height:180,
-    blockType:'blocker',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:150,
-    y:180,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:60,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'Skyblock\n\nby sp',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 18{
-level += 1;
-new Block({
-    x:450,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'Remote Island\n\nby sp',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:570,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:0,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:30,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:90,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:570,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:420,
-    width:150,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:540,
-    y:390,
-    width:60,
-    height:30,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:510,
-    y:330,
-    width:30,
-    height:90,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:270,
-    width:150,
-    height:60,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:240,
-    width:90,
-    height:90,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:450,
-    width:330,
-    height:30,
-    blockType:'water',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:0,
-    y:480,
-    width:300,
-    height:60,
-    blockType:'water',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:0,
-    y:540,
-    width:240,
-    height:30,
-    blockType:'water',
-    doCollision:false,
-    level:level,
-});
-//}
-//Level 19
-{
-level += 1;
-new Block({
-    x:210,
-    y:570,
-    width:180,
-    height:30,
-    blockType:'mud',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:0,
-    y:570,
-    width:120,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:480,
-    y:570,
-    width:120,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:570,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:570,
-    width:180,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:570,
-    width:180,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'portal',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:60,
-    y:510,
-    width:30,
-    height:60,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:480,
-    width:30,
-    height:90,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:330,
-    width:30,
-    height:60,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:300,
-    width:30,
-    height:30,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:480,
-    width:30,
-    height:90,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:120,
-    y:330,
-    width:30,
-    height:60,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:300,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:450,
-    y:330,
-    width:30,
-    height:240,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:300,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:390,
-    y:330,
-    width:30,
-    height:240,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:330,
-    width:30,
-    height:60,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:330,
-    width:30,
-    height:60,
-    blockType:'lava',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:420,
-    y:390,
-    width:30,
-    height:180,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:330,
-    width:30,
-    height:60,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:510,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:150,
-    y:540,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:180,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:360,
-    width:180,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:330,
-    width:120,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:300,
-    width:60,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:450,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:360,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:210,
-    y:390,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:270,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:300,
-    y:420,
-    width:30,
-    height:30,
-    blockType:'sand',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:60,
-    y:480,
-    width:30,
-    height:30,
-    blockType:'sign',
-    message:'Ruined Desert Temple\n\nby the-real-tianmu',
-    doCollision:false,
-    level:level,
-});
-new Block({
-    x:240,
-    y:60,
-    spdX:2,
-    width:120,
-    height:30,
-    blockType:'sticky',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:330,
-    y:0,
-    width:30,
-    height:60,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Block({
-    x:240,
-    y:0,
-    width:30,
-    height:60,
-    blockType:'none',
-    doCollision:true,
-    level:level,
-});
-new Monster({
-    x:270,
-    y:30,
-    width:30,
-    height:30,
-    moveSpeed:0.2,
-    jumpSpeed:0.7,
-    level:level,
-});
-new Monster({
-    x:300,
-    y:0,
-    width:30,
-    height:30,
-    moveSpeed:0.2,
-    jumpSpeed:0.7,
-    level:level,
-});
-}
+    //Level 1
+    {
+        level = 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Move with the ARROW\n keys.',
+        });
+        new Block({
+            x:420,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Get to the portal to win.',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 2
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Go do some parkour.',
+        });
+        new Block({
+            x:150,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:420,
+            width:30,
+            height:150,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 3
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:180,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'There can be sticky\nmoving blocks.',
+        });
+        new Block({
+            x:510,
+            y:450,
+            spdX:1,
+            width:90,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:570,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 4
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:240,
+            width:270,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:240,
+            spdY:1,
+            width:60,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:210,
+            width:60,
+            height:30,
+            blockType:'blocker',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:240,
+            width:270,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:210,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Take the elevator down!',
+        });
+        new Block({
+            x:0,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 5
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:570,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:90,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Sometimes, winning can\nget tricky.',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:480,
+            width:480,
+            height:5,
+            blockType:'sticky',
+            doCollision:true,
+            level:5,
+        });
+        new Block({
+            x:480,
+            y:480,
+            width:5,
+            height:55,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:535,
+            width:5,
+            height:35,
+            blockType:'none',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 6
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:300,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:570,
+            width:240,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Lava is dangerous. Don\'t\ntouch it!',
+        });
+        new Block({
+            x:300,
+            y:570,
+            width:60,
+            height:30,
+            blockType:'lava',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 7
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Wait, lava can move???',
+        });
+        new Block({
+            x:150,
+            y:530,
+            width:30,
+            height:40,
+            blockType:'lava',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:480,
+            width:60,
+            height:90,
+            spdY:-10,
+            blockType:'lava',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:370,
+            y:0,
+            width:60,
+            height:90,
+            spdY:10,
+            blockType:'lava',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 8
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'These blocks are super\nbouncy. I wonder what\nto do with them...',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:300,
+            width:570,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:0,
+            width:30,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:270,
+            width:30,
+            height:30,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:30,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 9
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:150,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:570,
+            width:150,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:540,
+            width:60,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:480,
+            width:30,
+            height:60,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:570,
+            width:60,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'This ice is super\nslippery! Make sure not\nto fall off!',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 10
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:570,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:480,
+            width:540,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:465,
+            width:25,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:420,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:135,
+            y:460,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:420,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:285,
+            y:460,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:370,
+            y:420,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:135,
+            y:370,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:330,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:285,
+            y:370,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:370,
+            y:330,
+            width:30,
+            height:20,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:330,
+            width:15,
+            height:135,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:390,
+            width:540,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:300,
+            width:540,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:375,
+            width:60,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:60,
+            width:30,
+            height:240,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:60,
+            spdX:2,
+            width:90,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:60,
+            width:30,
+            height:90,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:200,
+            y:0,
+            width:30,
+            height:220,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:230,
+            y:190,
+            width:190,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:120,
+            width:210,
+            height:30,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:285,
+            width:510,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:60,
+            width:15,
+            height:225,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:185,
+            y:0,
+            width:15,
+            height:220,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:30,
+            width:60,
+            height:30,
+            blockType:'ice',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Wait, bouncy blocks,\nlava, and ice???',
+        });
+        new Block({
+            x:0,
+            y:0,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 11
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:150,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:570,
+            width:150,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:570,
+            width:150,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Mud makes you VERY\nslow when you\nwalk on it.',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 12
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:360,
+            width:60,
+            height:210,
+            blockType:'water',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'If only there was a way\nto get up there... Water\nmight help you with that.',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:360,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:360,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:360,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:150,
+            width:60,
+            height:210,
+            blockType:'water',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:150,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:150,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:150,
+            width:120,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        }
+    //Level 13
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:120,
+            width:90,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:90,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:120,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:120,
+            width:30,
+            height:300,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:150,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:150,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:210,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:210,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:270,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:270,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:330,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:330,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:390,
+            width:60,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:420,
+            width:90,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:90,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'Whoa! No floor! But the\nsand path ahead\ndoesn\'t look stable...',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 14
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:180,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:570,
+            width:60,
+            height:30,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:570,
+            width:210,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:570,
+            width:60,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:570,
+            width:90,
+            height:30,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:480,
+            width:180,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'Uh oh! Monsters! Try\nto lure them into\nthat lava over there.',
+            doCollision:false,
+            level:level,
+        });
+        new Monster({
+            x:60,
+            y:450,
+            width:30,
+            height:30,
+            moveSpeed:0.2,
+            jumpSpeed:0.7,
+            level:level,
+        });
+        new Monster({
+            x:120,
+            y:450,
+            width:30,
+            height:30,
+            moveSpeed:0.2,
+            jumpSpeed:0.7,
+            level:level,
+        });
+    }
+    //Level 15
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'This is the end of the\ntutorial.',
+        });
+        new Block({
+            x:420,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'Go in the portal to\ncontinue to the\nuser-submitted levels.',
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 16
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:210,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:570,
+            width:240,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:510,
+            spdX:4,
+            width:30,
+            height:15,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:450,
+            width:210,
+            height:15,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:420,
+            width:570,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:30,
+            y:360,
+            width:570,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:270,
+            width:570,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:30,
+            y:210,
+            width:570,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:120,
+            width:570,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:30,
+            y:60,
+            width:570,
+            height:15,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'The TIANMU unspeedrun!\n\nby the-real-tianmu',
+        });
+        new Block({
+            x:180,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sign',
+            doCollision:false,
+            level:level,
+            message:'This map is the best for a\nspeedrun. Please only use\nthis map for speedruns.',
+        });
+        new Block({
+            x:0,
+            y:0,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 17
+    {
+        level += 1;
+        new Block({
+            x:0,
+            y:570,
+            width:600,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:540,
+            width:90,
+            height:60,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:330,
+            width:90,
+            height:60,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:330,
+            width:90,
+            height:60,
+            blockType:'bounce',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:210,
+            width:270,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:240,
+            width:210,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:210,
+            width:150,
+            height:90,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:30,
+            width:30,
+            height:180,
+            blockType:'sign',
+            message:'Cool tree!',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:90,
+            width:150,
+            height:60,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:30,
+            width:90,
+            height:120,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:30,
+            width:150,
+            height:180,
+            blockType:'blocker',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:180,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'Skyblock\n\nby sp',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 18
+    {
+        level += 1;
+        new Block({
+            x:450,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'Remote Island\n\nby sp',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:30,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:90,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:570,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:420,
+            width:150,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:540,
+            y:390,
+            width:60,
+            height:30,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:510,
+            y:330,
+            width:30,
+            height:90,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:270,
+            width:150,
+            height:60,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:240,
+            width:90,
+            height:90,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:450,
+            width:330,
+            height:30,
+            blockType:'water',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:480,
+            width:300,
+            height:60,
+            blockType:'water',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:540,
+            width:240,
+            height:30,
+            blockType:'water',
+            doCollision:false,
+            level:level,
+        });
+    }
+    //Level 19
+    {
+        level += 1;
+        new Block({
+            x:210,
+            y:570,
+            width:180,
+            height:30,
+            blockType:'mud',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:0,
+            y:570,
+            width:120,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:480,
+            y:570,
+            width:120,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:570,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:570,
+            width:180,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:570,
+            width:180,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'portal',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:510,
+            width:30,
+            height:60,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:480,
+            width:30,
+            height:90,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:330,
+            width:30,
+            height:60,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:300,
+            width:30,
+            height:30,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:480,
+            width:30,
+            height:90,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:120,
+            y:330,
+            width:30,
+            height:60,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:300,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:450,
+            y:330,
+            width:30,
+            height:240,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:300,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:390,
+            y:330,
+            width:30,
+            height:240,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:330,
+            width:30,
+            height:60,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:330,
+            width:30,
+            height:60,
+            blockType:'lava',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:420,
+            y:390,
+            width:30,
+            height:180,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:330,
+            width:30,
+            height:60,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:510,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:150,
+            y:540,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:180,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:360,
+            width:180,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:330,
+            width:120,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:300,
+            width:60,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:450,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:360,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:210,
+            y:390,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:270,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:300,
+            y:420,
+            width:30,
+            height:30,
+            blockType:'sand',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:60,
+            y:480,
+            width:30,
+            height:30,
+            blockType:'sign',
+            message:'Ruined Desert Temple\n\nby the-real-tianmu',
+            doCollision:false,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:60,
+            spdX:2,
+            width:120,
+            height:30,
+            blockType:'sticky',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:330,
+            y:0,
+            width:30,
+            height:60,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Block({
+            x:240,
+            y:0,
+            width:30,
+            height:60,
+            blockType:'none',
+            doCollision:true,
+            level:level,
+        });
+        new Monster({
+            x:270,
+            y:30,
+            width:30,
+            height:30,
+            moveSpeed:0.2,
+            jumpSpeed:0.7,
+            level:level,
+        });
+        new Monster({
+            x:300,
+            y:0,
+            width:30,
+            height:30,
+            moveSpeed:0.2,
+            jumpSpeed:0.7,
+            level:level,
+        });
+    }
 }
 
 document.onkeydown = function(event){
+    if(time === -1){
+        time = 0;
+    }
     key = event.key;
     if(key === 'ArrowUp'){
         cubie.keyPress.up = true;
@@ -4234,16 +4270,17 @@ document.onmouseclick = function(event){
 document.onmousemove = function(event){
     mouseX = event.clientX;
     mouseY = event.clientY;
-    println(mouseX);
 }
 
 
 setInterval(function(){
-    //ctx.clearRect(0,0,600,600);
     noStroke();
     fill(0,255,255,80);
     rect(0,0,600,600);
     if(!paused){
+        if(time !== -1){
+            time += 1;
+        }
         drawText = false;
         cubie.update();
         for(var i in Monster.list){

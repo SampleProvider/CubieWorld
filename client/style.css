@@ -121,3 +121,16 @@ canvas {
     height: 600px;
     border: 1px solid #000000;
 }
+#gameMessages {
+    position: absolute;
+    margin: 8px;
+    width: 600px;
+    height: 200px;
+    left: 610px;
+    top: 0px;
+    overflow-y: scroll;
+    border: 1px solid #000000;
+}
+.gameMessage {
+    position: relative;
+}
