@@ -1,0 +1,123 @@
+body {
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+}
+div {
+    user-select: none;
+}
+button {
+    outline: none;
+    cursor: pointer;
+}
+canvas {
+    /*
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: -o-crisp-edges;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: pixelated;*/
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(40,40,40,0.5);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(20,20,20,0.5);
+}
+
+@font-face {
+    font-family: 'pixel';
+    src: url(/client/websiteAssets/MiniSet2.ttf@14d552ae72d147f7b96abae4220f32c0.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.UI-display-light {
+    position: absolute;
+    font-family: 'pixel';
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #362a1e;
+    border: 1px solid #000000;
+    cursor: default;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+}
+.UI-button-light {
+    position: absolute;
+    font-family: 'pixel';
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #362a1e;
+    border: 1px solid #000000;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+}
+.UI-button-light:hover {
+    background-color: #231913;
+}
+.UI-dropdown-light {
+    position: absolute;
+    font-family: 'pixel';
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #362a1e;
+    border: 1px solid #000000;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    display: none;
+}
+.UI-dropdown-light:hover {
+    background-color: #231913;
+}
+.UI-input-light {
+    position: absolute;
+    font-family: 'pixel';
+    color: #000000;
+    border: 1px solid #000000;
+    transition-duration: 0.4s;
+    cursor: text;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+}
+.UI-text-light {
+    position: absolute;
+    font-family: 'pixel';
+    color: #000000;
+    border: 0px;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+}
+.UI-link-light {
+    color: #00ff90;
+}
+.UI-link-light:focus {
+    color: #00aa70;
+}
+
+#ctx {
+    margin: 8px;
+    width: 600px;
+    height: 600px;
+    border: 1px solid #000000;
+}
