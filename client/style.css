@@ -133,4 +133,113 @@ canvas {
 }
 .gameMessage {
     position: relative;
+    user-select: text;
+}
+#pageDiv {
+    padding: 0px;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    background-image: url("./img/Preview.png");
+    background-size: contain;
+}
+#pageShade {
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    opacity: 0.3;
+}
+#pageScroll {
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    background-image: url("./img/Preview.png");
+    background-size: contain;
+}
+#pageName {
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, 0%);
+    font-size: 80px;
+    font-family: 'pixel';
+    color: #000000;
+}
+
+#pageStackLeft {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 35%;
+    height: auto;
+}
+#pageStackRight {
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    width: 35%;
+    height: auto;
+}
+.pageStackInner {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+}
+.pageStackOuter {
+    position: relative;
+    top: 0px;
+    left: 0%;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    min-height: 0px;
+    margin-bottom: 8px;
+}
+#signInput {
+    position: static;
+    top: 8px;
+    float: left;
+    width: auto;
+}
+#signLabel {
+    position: static;
+    top: 8px;
+    left: 8px;
+    float: left;
+    width: auto;
+}
+#signBottom {
+    position: static;
+    top: 52px;
+    left: 8px;
+    float: left;
+    width: auto;
+    margin-bottom: 12px;
+}
+#username {
+    position: relative;
+    top: 8px;
+    left: 8px;
+}
+#username-label {
+    position: relative;
+    top: 8px;
+    left: 8px;
+    color: #ffffff;
+}
+#signIn {
+    position: relative;
+    top: 8px;
+    left: 16px;
 }

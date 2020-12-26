@@ -93,6 +93,10 @@ var text = function(text,x,y){
     }
 }
 
+document.getElementById("signIn").onclick = function(){
+    document.getElementById("pageDiv").style.display = 'none';
+    document.getElementById("gameDiv").style.display = 'inline-block';
+}
 
 //Speedrun version: |
 //                  v
@@ -391,26 +395,50 @@ var Monster = function(param){
         self.lastX = self.x;
         self.lastY = self.y;
         if(cubie.x < self.x){
-            self.keyPress.left = true;
-            self.keyPress.right = false;
+            if(random() < 0.7){
+                self.keyPress.left = true;
+                self.keyPress.right = false;
+            }
+            else{
+                self.keyPress.left = false;
+                self.keyPress.right = false;
+            }
         }
         else if(cubie.x > self.x){
-            self.keyPress.left = false;
-            self.keyPress.right = true;
+            if(random() < 0.7){
+                self.keyPress.left = false;
+                self.keyPress.right = true;
+            }
+            else{
+                self.keyPress.left = false;
+                self.keyPress.right = false;
+            }
         }
         else{
             self.keyPress.left = false;
             self.keyPress.right = false;
         }
         if(cubie.y < self.y){
-            self.keyPress.up = true;
-            self.keyPress.down = false;
+            if(random() < 0.7){
+                self.keyPress.up = true;
+                self.keyPress.down = false;
+            }
+            else{
+                self.keyPress.up = false;
+                self.keyPress.down = false;
+            }
         }
         else{
-            self.keyPress.up = false;
-            self.keyPress.down = false;
+            if(random() < 0.7){
+                self.keyPress.up = false;
+                self.keyPress.down = false;
+            }
+            else{
+                self.keyPress.up = true;
+                self.keyPress.down = false;
+            }
         }
-        if(levelCreator && self.level === 0){
+        if(levelCreator && self.level === 0 && !monsterGravity){
             self.keyPress.up = false;
             self.keyPress.down = false;
             self.keyPress.left = false;
@@ -3939,6 +3967,9 @@ var resetLevel = function(){
 }
 
 document.onkeydown = function(event){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     if(time === -1){
         time = 0;
     }
@@ -3968,25 +3999,29 @@ document.onkeydown = function(event){
         cubie.keyPress.right = true;
     }
     if(key === 'b'){
+        var logs = '';
         for(var i in Block.list){
             if(Block.list[i].level === cubie.level && Block.list[i].spawned){
                 if(Block.list[i].blockType === false){
-                    println('new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:' + Block.list[i].blockType + ',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});');
+                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:' + Block.list[i].blockType + ',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
                 }
                 else if(Block.list[i].blockType === 'sign'){
                     var message = Block.list[i].message.replace(/(?:\n)/g, '\\n');
-                    println('new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    message:\'' + message + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});');
+                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    message:\'' + message + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
                 }
                 else{
-                    println('new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});');
+                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
                 }
+                logs += '\n';
             }
         }
         for(var i in Monster.list){
             if(Monster.list[i].level === cubie.level && Monster.list[i].spawned){
-                println('new Monster({\n    x:' + Monster.list[i].x + ',\n    y:' + Monster.list[i].y + ',\n    width:' + Monster.list[i].width + ',\n    height:' + Monster.list[i].height + ',\n    moveSpeed:' + Monster.list[i].moveSpeed + ',\n    jumpSpeed:' + Monster.list[i].jumpSpeed + ',\n    level:level,\n});');
+                logs += 'new Monster({\n    x:' + Monster.list[i].x + ',\n    y:' + Monster.list[i].y + ',\n    width:' + Monster.list[i].width + ',\n    height:' + Monster.list[i].height + ',\n    moveSpeed:' + Monster.list[i].moveSpeed + ',\n    jumpSpeed:' + Monster.list[i].jumpSpeed + ',\n    level:level,\n});';
+                logs += '\n';
             }
         }
+        console.log(logs);
     }
     if(key === 'c'){
         cubieGravity = false;
@@ -4080,6 +4115,9 @@ document.onkeydown = function(event){
     }
 }
 document.onkeyup = function(event){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     key = event.key;
     if(key === 'ArrowUp'){
         cubie.keyPress.up = false;
@@ -4106,7 +4144,10 @@ document.onkeyup = function(event){
         cubie.keyPress.right = false;
     }
 }
-document.onmousedown = function(event){
+onmousedown = function(event){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     isClicking = true;
     if(paused){
         return;
@@ -4116,7 +4157,10 @@ document.onmousedown = function(event){
         levelMouseStartY = mouseY;
     }
 }
-document.onmouseup = function(event){
+onmouseup = function(event){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     isClicking = false;
     if(paused){
         return;
@@ -4255,7 +4299,10 @@ document.onmouseup = function(event){
         }
     }
 }
-document.onmouseclick = function(event){
+onmouseclick = function(event){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     if(paused){
         return;
     }
@@ -4268,12 +4315,15 @@ document.onmouseclick = function(event){
     }
 }
 document.onmousemove = function(event){
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+    mouseX = event.clientX - 9;
+    mouseY = event.clientY - 9;
 }
 
 
 setInterval(function(){
+    if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
     noStroke();
     fill(0,255,255,80);
     rect(0,0,600,600);
