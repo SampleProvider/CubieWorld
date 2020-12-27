@@ -362,6 +362,7 @@ var Monster = function(param){
     self.level = param.level;
     self.isVisible = true;
     self.spawned = param.spawned;
+    self.monsterType = param.monsterType;
     self.update = function(){
         self.lastX = self.x;
         self.lastY = self.y;
@@ -466,14 +467,29 @@ var Monster = function(param){
         }
     }
     self.draw = function(){
-        strokeWeight(1);
-        fill(0, 125, 0);
-        stroke(0, 0, 0);
-        rect(self.x,self.y,self.width,self.height);
-        fill(255, 255, 255);
-        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+        switch(self.monsterType){
+            case "monsterBlue":
+                strokeWeight(1);
+                fill(0, 0, 125);
+                stroke(0, 0, 0);
+                rect(self.x,self.y,self.width,self.height);
+                fill(255, 255, 255);
+                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                break;
+            case "monsterGreen":
+                strokeWeight(1);
+                fill(0, 125, 0);
+                stroke(0, 0, 0);
+                rect(self.x,self.y,self.width,self.height);
+                fill(255, 255, 255);
+                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                break;
+        }
+        
         if(levelDebug){
             strokeWeight(3);
             stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
@@ -2487,6 +2503,7 @@ var resetLevel = function(){
             y:450,
             width:30,
             height:30,
+            monsterType:"green",
             moveSpeed:0.2,
             jumpSpeed:0.7,
             level:level,
@@ -2496,6 +2513,7 @@ var resetLevel = function(){
             y:450,
             width:30,
             height:30,
+            monsterType:"green",
             moveSpeed:0.2,
             jumpSpeed:0.7,
             level:level,
@@ -3921,6 +3939,7 @@ var resetLevel = function(){
             y:30,
             width:30,
             height:30,
+            monsterType:"green",
             moveSpeed:0.2,
             jumpSpeed:0.7,
             level:level,
@@ -3930,6 +3949,7 @@ var resetLevel = function(){
             y:0,
             width:30,
             height:30,
+            monsterType:"green",
             moveSpeed:0.2,
             jumpSpeed:0.7,
             level:level,
@@ -4043,13 +4063,16 @@ document.onkeydown = function(event){
         mousePower = 'sand';
     }
     if(key === '['){
-        mousePower = 'looseSand';
+        mousePower = 'monsterGreen';
     }
     if(key === ']'){
-        mousePower = 'monster';
+        mousePower = 'monsterBlue';
     }
     if(key === '\\'){
         mousePower = 'spawn';
+    }
+    if(key === ';'){
+        mousePower = 'looseSand';
     }
     if(key === 'v'){
         for(var i in Block.list){
@@ -4243,12 +4266,29 @@ onmouseup = function(event){
                     }
                 }
                 break;
-            case 'monster':
+            case 'monsterGreen':
                 var monster = Monster({
                     x:x,
                     y:y,
                     width:width,
                     height:height,
+                    monsterType:mousePower,
+                    moveSpeed:0.2,
+                    jumpSpeed:0.7,
+                    doCollision:true,
+                    level:cubie.level,
+                    spawned:true,
+                });
+                lastBlock.splice(0,0,[monster.id,'monster']);
+                powerUsed += 1;
+                break;
+            case 'monsterBlue':
+                var monster = Monster({
+                    x:x,
+                    y:y,
+                    width:width,
+                    height:height,
+                    monsterType:mousePower,
                     moveSpeed:0.2,
                     jumpSpeed:0.7,
                     doCollision:true,
