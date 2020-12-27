@@ -1,3 +1,8 @@
+var queryString = window.location.search;
+
+var urlParams = new URLSearchParams(queryString);
+
+var page_type = urlParams.get('page_type');
 
 var socket = io();
 
@@ -105,13 +110,13 @@ document.getElementById("signIn").onclick = function(){
 var version =     '1.0.0';
 //Level Creator:     |
 //                   v
-var levelCreator = true;
-var level = 1;
-var levelDebug = false;
-var levelTeleport = false;
+var levelCreator = urlParams.get('levelCreator') || false;
+var level = parseInt(urlParams.get('level')) || 1;
+var levelDebug = urlParams.get('levelDebug') || false;
+var levelTeleport = urlParams.get('levelTeleport') || false;
 var hitboxColor = [0,0,0];
 //Grid Size of your select tool
-var gridSize = 30;
+var gridSize = parseInt(urlParams.get('gridSize')) || 30;
 //Mouse Power: Click to activate.
 //Keymaps:
 //Example keymap
@@ -138,8 +143,8 @@ var gridSize = 30;
 var blockGravity = false;
 var cubieGravity = true;
 var monsterGravity = true;
-var gravitySpd = 0.5;
-var bounceSpd = 1;
+var gravitySpd = parseFloat(urlParams.get('gravitySpd')) || 0.5;
+var bounceSpd = parseFloat(urlParams.get('bounceSpd')) || 1;
 
 //Press [B] for savecode
 //Press [C] for level creator
