@@ -16,3 +16,9 @@ else{
 	var port = serv.listen(4000);
 }
 console.log('Server Started on port ' + port.address().port);
+io = require('socket.io')(serv,{upgradeTimeout:360000});
+io.sockets.on('connection',function(socket){
+	socket.on('signIn',function(data){
+		console.log(data.username);
+	});
+});

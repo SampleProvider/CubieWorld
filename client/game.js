@@ -1,4 +1,5 @@
 
+var socket = io();
 
 var ctxRaw = document.getElementById("ctx");
 var ctx = ctxRaw.getContext('2d');
@@ -96,6 +97,7 @@ var text = function(text,x,y){
 document.getElementById("signIn").onclick = function(){
     document.getElementById("pageDiv").style.display = 'none';
     document.getElementById("gameDiv").style.display = 'inline-block';
+    socket.emit('signIn',{username:document.getElementById("username").value});
 }
 
 //Speedrun version: |
