@@ -134,6 +134,7 @@ canvas {
 .gameMessage {
     position: relative;
     user-select: text;
+    white-space: pre-wrap;
 }
 #pageDiv {
     padding: 0px;

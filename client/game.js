@@ -187,6 +187,7 @@ var time = -1;
 
 var isClicking = false;
 var paused = false;
+var mouseIn = false;
 
 var resetLevel = function(){}
 
@@ -4003,25 +4004,30 @@ document.onkeydown = function(event){
         for(var i in Block.list){
             if(Block.list[i].level === cubie.level && Block.list[i].spawned){
                 if(Block.list[i].blockType === false){
-                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:' + Block.list[i].blockType + ',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
+                    logs += 'new Block({<br>&#09;x:' + Block.list[i].x + ',<br>&#09;y:' + Block.list[i].y + ',<br>&#09;width:' + Block.list[i].width + ',<br>&#09;height:' + Block.list[i].height + ',<br>&#09;blockType:' + Block.list[i].blockType + ',<br>&#09;doCollision:' + Block.list[i].doCollision + ',<br>&#09;level:level,<br>});<br>';
                 }
                 else if(Block.list[i].blockType === 'sign'){
                     var message = Block.list[i].message.replace(/(?:\n)/g, '\\n');
-                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    message:\'' + message + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
+                    logs += 'new Block({<br>&#09;x:' + Block.list[i].x + ',<br>&#09;y:' + Block.list[i].y + ',<br>&#09;width:' + Block.list[i].width + ',<br>&#09;height:' + Block.list[i].height + ',<br>&#09;blockType:\'' + Block.list[i].blockType + '\',<br>&#09;message:\'' + message + '\',<br>&#09;doCollision:' + Block.list[i].doCollision + ',<br>&#09;level:level,<br>});<br>';
                 }
                 else{
-                    logs += 'new Block({\n    x:' + Block.list[i].x + ',\n    y:' + Block.list[i].y + ',\n    width:' + Block.list[i].width + ',\n    height:' + Block.list[i].height + ',\n    blockType:\'' + Block.list[i].blockType + '\',\n    doCollision:' + Block.list[i].doCollision + ',\n    level:level,\n});';
+                    logs += 'new Block({<br>&#09;x:' + Block.list[i].x + ',<br>&#09;y:' + Block.list[i].y + ',<br>&#09;width:' + Block.list[i].width + ',<br>&#09;height:' + Block.list[i].height + ',<br>&#09;blockType:\'' + Block.list[i].blockType + '\',<br>&#09;doCollision:' + Block.list[i].doCollision + ',<br>&#09;level:level,<br>});<br>';
                 }
-                logs += '\n';
             }
         }
         for(var i in Monster.list){
             if(Monster.list[i].level === cubie.level && Monster.list[i].spawned){
-                logs += 'new Monster({\n    x:' + Monster.list[i].x + ',\n    y:' + Monster.list[i].y + ',\n    width:' + Monster.list[i].width + ',\n    height:' + Monster.list[i].height + ',\n    moveSpeed:' + Monster.list[i].moveSpeed + ',\n    jumpSpeed:' + Monster.list[i].jumpSpeed + ',\n    level:level,\n});';
-                logs += '\n';
+                logs += 'new Monster({<br>&#09;x:' + Monster.list[i].x + ',<br>&#09;y:' + Monster.list[i].y + ',<br>&#09;width:' + Monster.list[i].width + ',<br>&#09;height:' + Monster.list[i].height + ',<br>&#09;moveSpeed:' + Monster.list[i].moveSpeed + ',<br>&#09;jumpSpeed:' + Monster.list[i].jumpSpeed + ',<br>&#09;level:level,<br>});<br>';
             }
         }
-        console.log(logs);
+        var scroll = false;
+        if(gameMessages.scrollTop + gameMessages.clientHeight >= gameMessages.scrollHeight - 5){
+            scroll = true;
+        }
+        gameMessages.innerHTML += '<div class="UI-text-light gameMessage" ' + gameMessageStyle + '>' + logs + '</div>'
+        if(scroll){
+            gameMessages.scrollTop = gameMessages.scrollHeight;
+        }
     }
     if(key === 'c'){
         cubieGravity = false;
@@ -4148,6 +4154,9 @@ onmousedown = function(event){
     if(document.getElementById("pageDiv").style.display !== 'none'){
         return;
     }
+    if(!mouseIn){
+        return;
+    }
     isClicking = true;
     if(paused){
         return;
@@ -4159,6 +4168,9 @@ onmousedown = function(event){
 }
 onmouseup = function(event){
     if(document.getElementById("pageDiv").style.display !== 'none'){
+        return;
+    }
+    if(!mouseIn){
         return;
     }
     isClicking = false;
@@ -4303,6 +4315,9 @@ onmouseclick = function(event){
     if(document.getElementById("pageDiv").style.display !== 'none'){
         return;
     }
+    if(!mouseIn){
+        return;
+    }
     if(paused){
         return;
     }
@@ -4313,6 +4328,14 @@ onmouseclick = function(event){
         cubie.spdY = 0;
         powerUsed =+ 1;
     }
+}
+onmouseout = function(event){
+    mouseIn = false;
+    isClicking = false;
+}
+onmousein = function(event){
+    mouseIn = true;
+    isClicking = false;
 }
 document.onmousemove = function(event){
     mouseX = event.clientX - 9;
