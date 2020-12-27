@@ -4413,6 +4413,11 @@ setInterval(function(){
                 Block.list[i].draw();
             }
         }
+        for(var i in Monster.list){
+            if(Monster.list[i].level === cubie.level && Monster.list[i].isVisible){
+                Monster.list[i].draw();
+            }
+        }
         cubie.draw();
         fill(0, 0, 0, 75);
         rect(0,0,600,600);
