@@ -4007,7 +4007,7 @@ document.onkeydown = function(event){
         }
         for(var i in Monster.list){
             if(Monster.list[i].level === cubie.level && Monster.list[i].spawned){
-                logs += 'new Monster({<br>&#09;x:' + Monster.list[i].x + ',<br>&#09;y:' + Monster.list[i].y + ',<br>&#09;width:' + Monster.list[i].width + ',<br>&#09;height:' + Monster.list[i].height + ',<br>&#09;moveSpeed:' + Monster.list[i].moveSpeed + ',<br>&#09;jumpSpeed:' + Monster.list[i].jumpSpeed + ',<br>&#09;level:level,<br>});<br>';
+                logs += 'new Monster({<br>&#09;x:' + Monster.list[i].x + ',<br>&#09;y:' + Monster.list[i].y + ',<br>&#09;width:' + Monster.list[i].width + ',<br>&#09;height:' + Monster.list[i].height + ',<br>&#09;monsterType:\'' + Monster.list[i].monsterType + '\',<br>&#09;moveSpeed:' + Monster.list[i].moveSpeed + ',<br>&#09;jumpSpeed:' + Monster.list[i].jumpSpeed + ',<br>&#09;level:level,<br>});<br>';
             }
         }
         var scroll = false;
