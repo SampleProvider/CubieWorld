@@ -105,55 +105,18 @@ document.getElementById("signIn").onclick = function(){
     socket.emit('signIn',{username:document.getElementById("username").value});
 }
 
-//Speedrun version: |
-//                  v
-var version =     '1.0.0';
-//Level Creator:     |
-//                   v
+var version = '1.0.0';
 var levelCreator = urlParams.get('levelCreator') || false;
 var level = parseInt(urlParams.get('level')) || 1;
 var levelDebug = urlParams.get('levelDebug') || false;
 var levelTeleport = urlParams.get('levelTeleport') || false;
 var hitboxColor = [0,0,0];
-//Grid Size of your select tool
 var gridSize = parseInt(urlParams.get('gridSize')) || 30;
-//Mouse Power: Click to activate.
-//Keymaps:
-//Example keymap
-//[t]: Color
-//This means that pressing the t key will change your mouse power mode to color. This is an example and is NOT real.
-//[1]: Normal
-//[2]: Sticky
-//[3]: Portal
-//[4]: Lava
-//[5]: Ice
-//[6]: Bounce
-//[7]: Mud
-//[8]: Sign
-//[9]: Blocker
-//[0]: Cubie
-//[-]: Water
-//[=]: Sand
-//[[]: Loose Sand (Sand spawns as individual blocks)
-//[]]: Monster
-//[\]: Set Spawnpoint (WARNING: THE SPAWNPOINT IS NOT SAVED)
-
-//Gravity
-//WARNING: THESE ARE EXPERMENTAL FEATURES
 var blockGravity = false;
 var cubieGravity = true;
 var monsterGravity = true;
 var gravitySpd = parseFloat(urlParams.get('gravitySpd')) || 0.5;
 var bounceSpd = parseFloat(urlParams.get('bounceSpd')) || 1;
-
-//Press [B] for savecode
-//Press [C] for level creator
-//Press [V] to clear blocks in level creator
-//Press [G] to change cubie gravity
-//Press [H] to change block gravity
-//Press [P] pause/unpause
-//Press [Z] undo
-//Press [X] to toggle debug
 
 //Code{
 
