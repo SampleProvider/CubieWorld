@@ -106,6 +106,7 @@ document.getElementById("signIn").onclick = function(){
 }
 
 var version = '1.0.0';
+var texturePack = 'none';
 var levelCreator = urlParams.get('levelCreator') || false;
 var level = parseInt(urlParams.get('level')) || 1;
 var levelDebug = urlParams.get('levelDebug') || false;
@@ -312,24 +313,48 @@ var Cubie = function(param){
         self.keyPress.onBlock = false;
     }
     self.draw = function(){
-        strokeWeight(1);
-        fill(255, 0, 0);
-        stroke(0, 0, 0);
-        rect(self.x,self.y,self.width,self.height);
-        fill(0, 0, 0);
-        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
-        if(levelDebug){
-            strokeWeight(3);
-            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
-            fill(0, 0, 0, 0);
-            rect(self.x,self.y,self.width,self.height);
+        switch(texturePack){
+            case 'none':
+                strokeWeight(1);
+                fill(255, 0, 0);
+                stroke(0, 0, 0);
+                rect(self.x,self.y,self.width,self.height);
+                fill(0, 0, 0);
+                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                if(levelDebug){
+                    strokeWeight(3);
+                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                    fill(0, 0, 0, 0);
+                    rect(self.x,self.y,self.width,self.height);
+                }
+                noStroke();
+                fill(self.shade.r,self.shade.g,self.shade.b,self.shade.a);
+                self.shade.a = max(self.shade.a - 10,0);
+                rect(0,0,600,600);
+                break;
+            case 'inverted':
+                strokeWeight(1);
+                fill(255 - 255, 255 - 0, 255 - 0);
+                stroke(255 - 0, 255 - 0, 255 - 0);
+                rect(self.x,self.y,self.width,self.height);
+                fill(255 - 0, 255 - 0, 255 - 0);
+                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                if(levelDebug){
+                    strokeWeight(3);
+                    stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                    fill(0, 0, 0, 0);
+                    rect(self.x,self.y,self.width,self.height);
+                }
+                noStroke();
+                fill(255 - self.shade.r,255 - self.shade.g,255 - self.shade.b,self.shade.a);
+                self.shade.a = max(self.shade.a - 10,0);
+                rect(0,0,600,600);
+                break;
         }
-        noStroke();
-        fill(self.shade.r,self.shade.g,self.shade.b,self.shade.a);
-        self.shade.a = max(self.shade.a - 10,0);
-        rect(0,0,600,600);
     }
     return self;
 }
@@ -469,24 +494,76 @@ var Monster = function(param){
     self.draw = function(){
         switch(self.monsterType){
             case "monsterBlue":
-                strokeWeight(1);
-                fill(0, 0, 125);
-                stroke(0, 0, 0);
-                rect(self.x,self.y,self.width,self.height);
-                fill(255, 255, 255);
-                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                switch(texturePack){
+                    case 'none':
+                        strokeWeight(1);
+                        fill(0, 0, 125);
+                        stroke(0, 0, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(0, 0, 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                    case 'inverted':
+                        strokeWeight(1);
+                        fill(255 - 0, 255 - 0, 255 - 125);
+                        stroke(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                }
                 break;
             case "monsterGreen":
-                strokeWeight(1);
-                fill(0, 125, 0);
-                stroke(0, 0, 0);
-                rect(self.x,self.y,self.width,self.height);
-                fill(255, 255, 255);
-                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                switch(texturePack){
+                    case 'none':
+                        strokeWeight(1);
+                        fill(0, 125, 0);
+                        stroke(0, 0, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(0, 0, 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                    case 'inverted':
+                        strokeWeight(1);
+                        fill(255 - 0, 255 - 125, 255 - 0);
+                        stroke(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                }
                 break;
         }
         
@@ -1005,138 +1082,323 @@ var Block = function(param){
     self.draw = function(){
         switch(self.blockType){
             case 'sticky':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(125, 255, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 125, 255 - 255, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(125, 255, 0);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'sign':
-                strokeWeight(1);
-                stroke(100, 50, 0);
-                fill(155, 100, 0);
-                rect(self.x + self.width * 2 / 5,self.y + self.height / 2,self.width / 5,self.height / 2);
-                rect(self.x,self.y,self.width,self.height * 2 / 3);
-                fill(100,50,0);
-                noStroke();
-                rect(self.x + self.width / 10,self.y + self.height / 10,self.width * 3 / 10,self.height / 10);
-                rect(self.x + self.width * 5 / 10,self.y + self.height / 10,self.width * 4 / 10,self.height / 10);
-                rect(self.x + self.width / 10,self.y + self.height  * 3 / 10,self.width * 8 / 10,self.height / 10);
-                rect(self.x + self.width / 10,self.y + self.height  * 5 / 10,self.width * 5 / 10,self.height / 10);
-                rect(self.x + self.width * 7 / 10,self.y + self.height  * 5 / 10,self.width * 2 / 10,self.height / 10);
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
-                    fill(0, 0, 0, 0);
-                    rect(self.x,self.y,self.width,self.height);
+                switch(texturePack){
+                    case 'none':
+                        strokeWeight(1);
+                        stroke(100, 50, 0);
+                        fill(155, 100, 0);
+                        rect(self.x + self.width * 2 / 5,self.y + self.height / 2,self.width / 5,self.height / 2);
+                        rect(self.x,self.y,self.width,self.height * 2 / 3);
+                        fill(100,50,0);
+                        noStroke();
+                        rect(self.x + self.width / 10,self.y + self.height / 10,self.width * 3 / 10,self.height / 10);
+                        rect(self.x + self.width * 5 / 10,self.y + self.height / 10,self.width * 4 / 10,self.height / 10);
+                        rect(self.x + self.width / 10,self.y + self.height  * 3 / 10,self.width * 8 / 10,self.height / 10);
+                        rect(self.x + self.width / 10,self.y + self.height  * 5 / 10,self.width * 5 / 10,self.height / 10);
+                        rect(self.x + self.width * 7 / 10,self.y + self.height  * 5 / 10,self.width * 2 / 10,self.height / 10);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                    case 'inverted':
+                        strokeWeight(1);
+                        stroke(255 - 100, 255 - 50, 255 - 0);
+                        fill(255 - 155, 255 - 100, 255 - 0);
+                        rect(self.x + self.width * 2 / 5,self.y + self.height / 2,self.width / 5,self.height / 2);
+                        rect(self.x,self.y,self.width,self.height * 2 / 3);
+                        fill(255 - 100,255 - 50,255 - 0);
+                        noStroke();
+                        rect(self.x + self.width / 10,self.y + self.height / 10,self.width * 3 / 10,self.height / 10);
+                        rect(self.x + self.width * 5 / 10,self.y + self.height / 10,self.width * 4 / 10,self.height / 10);
+                        rect(self.x + self.width / 10,self.y + self.height  * 3 / 10,self.width * 8 / 10,self.height / 10);
+                        rect(self.x + self.width / 10,self.y + self.height  * 5 / 10,self.width * 5 / 10,self.height / 10);
+                        rect(self.x + self.width * 7 / 10,self.y + self.height  * 5 / 10,self.width * 2 / 10,self.height / 10);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
                 }
                 break;
             case 'portal':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(125, 125, 255);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 125, 255 - 125, 255 - 255);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(125, 125, 255);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'lava':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(255, 55, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 255, 255 - 55, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(255, 55, 0);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'color':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(param.color[0],param.color[1],param.color[2]);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - param.color[0],255 - param.color[1],255 - param.color[2]);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(param.color);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'bounce':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(0,255,125);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 0,255 - 255,255 - 125);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(0,255,125);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'ice':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(125,175,225);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 125,255 - 175,255 - 225);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(125, 175, 225);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'mud':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(125, 105, 55);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 125,255 - 105,255 - 55);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(125, 105, 55);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'blocker':
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
-                    fill(75,75,75,75);
-                    rect(self.x,self.y,self.width,self.height);
+                switch(texturePack){
+                    case 'none':
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                            fill(75,75,75,75);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                    case 'inverted':
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                            fill(255 - 75,255 - 75,255 - 75,75);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
                 }
                 break;
             case 'cubie':
-                strokeWeight(1);
-                fill(255, 0, 0);
-                stroke(0, 0, 0);
-                rect(self.x,self.y,self.width,self.height);
-                fill(0, 0, 0);
-                rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
-                rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
-                    fill(0, 0, 0, 0);
-                    rect(self.x,self.y,self.width,self.height);
+                switch(texturePack){
+                    case 'none':
+                        strokeWeight(1);
+                        fill(255, 0, 0);
+                        stroke(0, 0, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(0, 0, 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
+                    case 'inverted':
+                        strokeWeight(1);
+                        fill(255 - 255, 255 - 0, 255 - 0);
+                        stroke(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        fill(255 - 0, 255 - 0, 255 - 0);
+                        rect(self.x + self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + 3 * self.width / 5,self.y + self.height / 5,self.width / 5,self.height / 5);
+                        rect(self.x + self.width / 5,self.y + 3 * self.height / 5,3 * self.width / 5,self.height / 5);
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                            fill(0, 0, 0, 0);
+                            rect(self.x,self.y,self.width,self.height);
+                        }
+                        break;
                 }
                 break;
             case 'water':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(0, 125, 255);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 0,255 - 125,255 - 255);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(0, 125, 255);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             case 'sand':
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(255, 255, 125);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 255,255 - 255,255 - 125);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(255, 255, 125);
-                rect(self.x,self.y,self.width,self.height);
                 break;
             default:
-                noStroke();
-                if(levelDebug){
-                    strokeWeight(3);
-                    stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                switch(texturePack){
+                    case 'none':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(hitboxColor[0],hitboxColor[1],hitboxColor[2]);
+                        }
+                        fill(0, 255, 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
+                    case 'inverted':
+                        noStroke();
+                        if(levelDebug){
+                            strokeWeight(3);
+                            stroke(255 - hitboxColor[0],255 - hitboxColor[1],255 - hitboxColor[2]);
+                        }
+                        fill(255 - 0, 255 - 255, 255 - 0);
+                        rect(self.x,self.y,self.width,self.height);
+                        break;
                 }
-                fill(0, 255, 0);
-                rect(self.x,self.y,self.width,self.height);
                 break;
         }
     }
@@ -4112,6 +4374,16 @@ document.onkeydown = function(event){
             lastBlock.shift();
         }
     }
+    if(key === 't'){
+        switch(texturePack){
+            case 'none':
+                texturePack = 'inverted';
+                break;
+            case 'inverted':
+                texturePack = 'none';
+                break;
+        }
+    }
 }
 document.onkeyup = function(event){
     if(document.getElementById("pageDiv").style.display !== 'none'){
@@ -4183,7 +4455,7 @@ onmouseup = function(event){
                     width:width,
                     height:height,
                     blockType:'color',
-                    color:color(random(0,255),random(0,255),random(0,255)),
+                    color:[random(0,255),random(0,255),random(0,255)],
                     doCollision:false,
                     level:cubie.level,
                     spawned:true,
@@ -4357,9 +4629,18 @@ setInterval(function(){
     if(document.getElementById("pageDiv").style.display !== 'none'){
         return;
     }
-    noStroke();
-    fill(0,255,255,80);
-    rect(0,0,600,600);
+    switch(texturePack){
+        case 'none':
+            noStroke();
+            fill(0,255,255,80);
+            rect(0,0,600,600);
+            break;
+        case 'inverted':
+            noStroke();
+            fill(255 - 0,255 - 255,255 - 255,80);
+            rect(0,0,600,600);
+            break;
+    }
     if(!paused){
         if(time !== -1){
             time += 1;
@@ -4389,22 +4670,42 @@ setInterval(function(){
         }
         cubie.draw();
         if(levelCreator && isClicking){
-            noStroke();
-            fill(0, 125, 155, 125);
             var x = min(floor(levelMouseStartX / gridSize) * gridSize,floor(mouseX / gridSize) * gridSize);
             var y = min(floor(levelMouseStartY / gridSize) * gridSize,floor(mouseY / gridSize) * gridSize);
             var width = max(ceil(levelMouseStartX / gridSize) * gridSize,ceil(mouseX / gridSize) * gridSize) - min(floor(levelMouseStartX / gridSize) * gridSize,floor(mouseX / gridSize) * gridSize);
             var height = max(ceil(levelMouseStartY / gridSize) * gridSize,ceil(mouseY / gridSize) * gridSize) - min(floor(levelMouseStartY / gridSize) * gridSize,floor(mouseY / gridSize) * gridSize);
-            //rect(x,y,width,height,gridSize / 6);
-            rect(x,y,width,height);
+            switch(texturePack){
+                case 'none':
+                    noStroke();
+                    fill(0, 125, 155, 125);
+                    rect(x,y,width,height);
+                    break;
+                case 'inverted':
+                    noStroke();
+                    fill(255 - 0, 255 - 125, 255 - 155, 125);
+                    rect(x,y,width,height);
+                    break;
+            }
         }
         if(drawText){
-            strokeWeight(3);
-            stroke(100, 50, 0);
-            fill(155, 100, 0);
-            rect(100,30,400,130);
-            fill(0,0,0);
-            text(textToDraw,300,125);
+            switch(texturePack){
+                case 'none':
+                    strokeWeight(3);
+                    stroke(100, 50, 0);
+                    fill(155, 100, 0);
+                    rect(100,30,400,130);
+                    fill(0,0,0);
+                    text(textToDraw,300,125);
+                    break;
+                case 'inverted':
+                    strokeWeight(3);
+                    stroke(255 - 100, 255 - 50, 255 - 0);
+                    fill(255 - 155, 255 - 100, 255 - 0);
+                    rect(100,30,400,130);
+                    fill(255 - 0,255 - 0,255 - 0);
+                    text(textToDraw,300,125);
+                    break;
+            }
         }
     }
     else{
@@ -4419,14 +4720,28 @@ setInterval(function(){
             }
         }
         cubie.draw();
-        fill(0, 0, 0, 75);
-        rect(0,0,600,600);
-        strokeWeight(3);
-        stroke(100, 50, 0);
-        fill(155, 100, 0);
-        rect(100,30,400,130);
-        fill(0,0,0);
-        text('PAUSED',300,125);
+        switch(texturePack){
+            case 'none':
+                fill(0, 0, 0, 75);
+                rect(0,0,600,600);
+                strokeWeight(3);
+                stroke(100, 50, 0);
+                fill(155, 100, 0);
+                rect(100,30,400,130);
+                fill(0,0,0);
+                text('PAUSED',300,125);
+                break;
+            case 'inverted':
+                fill(255 - 0, 255 - 0, 255 - 0, 75);
+                rect(0,0,600,600);
+                strokeWeight(3);
+                stroke(255 - 100, 255 - 50, 255 - 0);
+                fill(255 - 155, 255 - 100, 255 - 0);
+                rect(100,30,400,130);
+                fill(255 - 0,255 - 0,255 - 0);
+                text('PAUSED',300,125);
+                break;
+        }
     }
 },1000/60);
 level = 0;
